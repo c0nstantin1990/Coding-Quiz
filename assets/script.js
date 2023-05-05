@@ -115,6 +115,19 @@ function checkEndGame() {
     questionElement.textContent = `You scored ${points} out of ${questions.length}!`;
     choicesElement.innerHTML = "";
     submitButton.style.display = "none";
+    saveScore();
+  }
+}
+
+function saveScore() {
+  var initials = prompt("Please enter yor initials");
+  if (initials) {
+    var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+    highScores.push({ initials: initials, score: points });
+    highScores.sort(function (a, b) {
+      return b.score - a.score;
+    });
+    localStorage.setItem("highScores", JSON.stringify(highScores));
   }
 }
 
