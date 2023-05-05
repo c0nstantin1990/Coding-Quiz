@@ -98,6 +98,7 @@ function displayQuestion() {
         timerElement.textContent = time;
       }
       currentQuestion++;
+      checkEndGame();
       if (currentQuestion < questions.length) {
         displayQuestion();
       } else {
@@ -105,6 +106,15 @@ function displayQuestion() {
       }
     });
     choicesElement.appendChild(li);
+  }
+}
+
+function checkEndGame() {
+  if (currentQuestion >= questions.length || time <= 0) {
+    clearInterval(timerInterval);
+    questionElement.textContent = `You scored ${points} out of ${questions.length}!`;
+    choicesElement.innerHTML = "";
+    submitButton.style.display = "none";
   }
 }
 
