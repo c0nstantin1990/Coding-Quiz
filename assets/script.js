@@ -93,6 +93,9 @@ function displayQuestion() {
       if (choice === question.correctAnswer) {
         points++;
         scoreElement.textContent = `Score: ${points}`;
+      } else {
+        time -= 5;
+        timerElement.textContent = time;
       }
       currentQuestion++;
       if (currentQuestion < questions.length) {
