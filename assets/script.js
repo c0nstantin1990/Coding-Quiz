@@ -1,5 +1,5 @@
 var startButton = document.getElementById("start");
-var quizContainer = document.getElementById(".container");
+var quizContainer = document.querySelector(".container");
 var questionElement = document.getElementById("question");
 var choicesElement = document.getElementById("choices");
 var submitButton = document.getElementById("submit");
@@ -74,3 +74,53 @@ var questions = [
       "'==' compares values, while '===' compares both value and type",
   },
 ];
+
+function startQuiz() {
+  quizContainer.removeChild(startButton);
+  displayQuestion();
+  startTimer();
+}
+
+function displayQuestion() {
+  var question = questions[currentQuestion];
+  questionElement.textContent = question.question;
+  choicesElement.innerHTML = "";
+  for (var i = 0; i < question.choices.length; i++) {
+    var li = document.createElement("li");
+    var choice = question.choices[i];
+    li.textContent = choice;
+    li.addEventListener("click", function () {
+      if (choice === question.correctAnswer) {
+        points++;
+        scoreElement.textContent = `Score: ${points}`;
+      }
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        displayQuestion();
+      } else {
+        endQuiz();
+      }
+    });
+    choicesElement.appendChild(li);
+  }
+}
+
+function startTimer() {
+  timerElement.textContent = time;
+  timerInterval = setInterval(function () {
+    time--;
+    timerElement.textContent = time;
+    if (time <= 0) {
+      clearInterval(timerInterval);
+      endQuiz();
+    }
+  }, 1000);
+}
+
+function endQuiz() {
+  clearInterval(timerInterval);
+  questionElement.textContent = `You scored ${points} out of ${questions.length}!`;
+  choicesElement.innerHTML = "";
+  submitButton.style.display = "none";
+}
+startButton.addEventListener("click", startQuiz);
