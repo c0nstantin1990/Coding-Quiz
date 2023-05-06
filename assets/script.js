@@ -10,6 +10,7 @@ var currentQuestion = 0;
 var points = 0;
 var time = 60;
 var timerInterval;
+var results = [];
 
 var questions = [
   {
@@ -77,6 +78,8 @@ var questions = [
 
 function startQuiz() {
   quizContainer.removeChild(startButton);
+  document.querySelector("h1").style.display = "none";
+  document.querySelector("h2").style.display = "none";
   displayQuestion();
   startTimer();
 }
@@ -93,9 +96,11 @@ function displayQuestion() {
       if (choice === question.correctAnswer) {
         points++;
         scoreElement.textContent = `Score: ${points}`;
+        displayResult(true);
       } else {
         time -= 5;
         timerElement.textContent = time;
+        displayResult(false);
       }
       currentQuestion++;
       checkEndGame();
@@ -107,6 +112,17 @@ function displayQuestion() {
     });
     choicesElement.appendChild(li);
   }
+}
+
+function displayResult(isCorrect) {
+  var resultElement = document.createElement("div");
+  resultElement.classList.add("result");
+
+  var resultText = document.createElement("p");
+  resultText.textContent = isCorrect ? "Correct" : "Wrong";
+  resultElement.appendChild(resultText);
+
+  quizContainer.appendChild(resultElement);
 }
 
 function checkEndGame() {
@@ -130,6 +146,38 @@ function saveScore() {
     localStorage.setItem("highScores", JSON.stringify(highScores));
   }
 }
+function showHighScores() {
+  quizContainer.innerHTML = "";
+  var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+  var scoresList = document.createElement("ul");
+  for (var i = 0; i < highScores.length; i++) {
+    var score = highScores[i];
+    var li = document.createElement("li");
+    li.textContent = `${score.initials} - ${score.score}`;
+    scoresList.appendChild(li);
+  }
+  quizContainer.appendChild(scoresList);
+}
+
+function clearHighScores() {
+  localStorage.removeItem("highScores");
+  showHighScores();
+}
+
+document
+  .getElementById("view-high-scores")
+  .addEventListener("click", function () {
+    clearInterval(timerInterval);
+    questionElement.textContent = "High Scores";
+    choicesElement.innerHTML = "";
+    submitButton.style.display = "none";
+    showHighScores();
+  });
+document
+  .getElementById("clear-high-scores")
+  .addEventListener("click", function () {
+    clearHighScores();
+  });
 
 function startTimer() {
   timerElement.textContent = time;

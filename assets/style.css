@@ -3,10 +3,21 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 40vh;
+  height: 70vh;
 }
-
+h1 {
+  font-size: 45px;
+  color: rgb(102, 96, 88);
+  text-shadow: 10px 4px 20px rgb(63, 59, 59);
+}
+h2 {
+  text-align: center;
+  margin: 10px 200px 30px 200px;
+  font-size: 40px;
+  color: rgb(66, 107, 93);
+}
 #timer {
+  font-size: 1.5em;
   font-weight: bold;
   position: absolute;
   top: 10px;
@@ -14,26 +25,48 @@
 }
 
 #question {
-  font-size: 2em;
+  text-shadow: 10px 2px 8px rgb(176, 171, 171);
+  font-size: 2.5em;
   font-weight: bold;
 }
 
 #choices {
-  font-size: 1em;
+  font-size: 2em;
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
+#choices li:hover {
+  text-shadow: 2px 2px 8px black;
+  cursor: pointer;
+}
 
 #choices li {
+  background-color: blanchedalmond;
+  border: 1px solid black;
   margin-bottom: 10px;
 }
 #submit {
   display: none;
 }
 #score {
+  font-size: 1.5em;
   font-weight: bold;
   position: absolute;
   top: 10px;
   left: 10px;
+}
+button {
+  background-color: rgb(96, 138, 138);
+  padding: 15px 30px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.result {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 5px;
+  font-size: 30px;
+  font-weight: bold;
+  color: rgb(198, 175, 147);
 }
