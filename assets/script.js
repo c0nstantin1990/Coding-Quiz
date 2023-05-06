@@ -94,7 +94,7 @@ function displayQuestion() {
     li.addEventListener("click", function () {
       if (choice === question.correctAnswer) {
         points++;
-        scoreElement.textContent = `Score: ${points}`;
+        scoreElement.textContent = `${points}`;
         displayResult(true);
       } else {
         time -= 5;
@@ -138,15 +138,34 @@ function checkEndGame() {
 }
 
 function saveScore() {
-  var initials = prompt("Please enter yor initials");
-  if (initials) {
+  // create a form for the user to enter their initials
+  var form = document.createElement("form");
+  var input = document.createElement("input");
+  input.type = "text";
+  input.placeholder = "Enter your initials";
+  input.required = true;
+  var submitButton = document.createElement("button");
+  submitButton.type = "submit";
+  submitButton.textContent = "Save";
+  form.appendChild(input);
+  form.appendChild(submitButton);
+
+  // add event listener to the form to handle submission
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var initials = input.value;
     var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
     highScores.push({ initials: initials, score: points });
     highScores.sort(function (a, b) {
       return b.score - a.score;
     });
     localStorage.setItem("highScores", JSON.stringify(highScores));
-  }
+    quizContainer.removeChild(form);
+    showHighScores();
+  });
+
+  // add the form to the page
+  quizContainer.appendChild(form);
 }
 function showHighScores() {
   quizContainer.innerHTML = "";
@@ -198,6 +217,5 @@ function endQuiz() {
     clearHighScores();
   });
   quizContainer.appendChild(clearHighScoreButton);
-  saveScore();
 }
 startButton.addEventListener("click", startQuiz);
