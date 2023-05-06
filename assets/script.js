@@ -10,7 +10,6 @@ var currentQuestion = 0;
 var points = 0;
 var time = 60;
 var timerInterval;
-var results = [];
 
 var questions = [
   {
@@ -125,7 +124,7 @@ function displayResult(isCorrect) {
   quizContainer.appendChild(resultElement);
   setTimeout(function () {
     quizContainer.removeChild(resultElement);
-  }, 1000);
+  }, 2000);
 }
 
 function checkEndGame() {
@@ -166,20 +165,6 @@ function clearHighScores() {
   localStorage.removeItem("highScores");
   showHighScores();
 }
-document
-  .getElementById("view-high-scores")
-  .addEventListener("click", function () {
-    clearInterval(timerInterval);
-    questionElement.textContent = "High Scores";
-    choicesElement.innerHTML = "";
-    submitButton.style.display = "none";
-    showHighScores();
-  });
-document
-  .getElementById("clear-high-scores")
-  .addEventListener("click", function () {
-    clearHighScores();
-  });
 
 function startTimer() {
   timerElement.textContent = time;
