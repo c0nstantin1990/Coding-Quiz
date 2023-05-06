@@ -124,7 +124,7 @@ function displayResult(isCorrect) {
   quizContainer.appendChild(resultElement);
   setTimeout(function () {
     quizContainer.removeChild(resultElement);
-  }, 2000);
+  }, 1000);
 }
 
 function checkEndGame() {
@@ -140,6 +140,7 @@ function checkEndGame() {
 function saveScore() {
   // create a form for the user to enter their initials
   var form = document.createElement("form");
+  form.setAttribute("id", "initials-form");
   var input = document.createElement("input");
   input.type = "text";
   input.placeholder = "Enter your initials";

@@ -70,3 +70,6 @@ button {
   font-weight: bold;
   color: rgb(198, 175, 147);
 }
+#initials-form input {
+  font-size: 2rem;
+}
