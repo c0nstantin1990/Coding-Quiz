@@ -123,6 +123,9 @@ function displayResult(isCorrect) {
   resultElement.appendChild(resultText);
 
   quizContainer.appendChild(resultElement);
+  setTimeout(function () {
+    quizContainer.removeChild(resultElement);
+  }, 1000);
 }
 
 function checkEndGame() {
@@ -163,7 +166,6 @@ function clearHighScores() {
   localStorage.removeItem("highScores");
   showHighScores();
 }
-
 document
   .getElementById("view-high-scores")
   .addEventListener("click", function () {
@@ -196,5 +198,21 @@ function endQuiz() {
   questionElement.textContent = `You scored ${points} out of ${questions.length}!`;
   choicesElement.innerHTML = "";
   submitButton.style.display = "none";
+  var viewHighScoresButton = document.createElement("button");
+  viewHighScoresButton.textContent = "View High Scores";
+  viewHighScoresButton.addEventListener("click", function () {
+    questionElementtextContent = "High Scores";
+    choicesElement.innerHTML = "";
+    submitButton.style.display = "none";
+    showHighScores();
+  });
+  quizContainer.appendChild(viewHighScoresButton);
+  var clearHighScoreButton = document.createElement("button");
+  clearHighScoreButton.textContent = "Clear High Scores";
+  clearHighScoreButton.addEventListener("click", function () {
+    clearHighScores();
+  });
+  quizContainer.appendChild(clearHighScoreButton);
+  saveScore();
 }
 startButton.addEventListener("click", startQuiz);
