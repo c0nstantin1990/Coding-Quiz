@@ -156,18 +156,16 @@ function saveScore() {
     var initials = input.value;
     var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
     highScores.push({ initials: initials, score: points });
-    highScores.sort(function (a, b) {
-      return b.score - a.score;
-    });
+
     localStorage.setItem("highScores", JSON.stringify(highScores));
 
     var scoresList = document.querySelector("#high-scores ul");
-    var score = highScores[0];
+    var score = highScores[highScores.length - 1];
     var li = document.createElement("li");
     li.textContent = `${score.initials} - ${score.score}`;
     scoresList.appendChild(li);
 
-    submitButton.disabled = true; // disable the Save button
+    submitButton.disabled = true;
   });
 
   quizContainer.appendChild(form);
@@ -185,23 +183,21 @@ function showHighScores() {
     li.textContent = `${score.initials} - ${score.score}`;
     scoresList.appendChild(li);
   }
-  quizContainer.innerHTML = "";
-  quizContainer.appendChild(scoresList);
-
-  var restartButton = document.createElement("button");
-  restartButton.textContent = "Restart Quiz";
-  restartButton.addEventListener("click", function () {
-    currentQuestion = 0;
-    points = 0;
-    time = 60;
-    displayQuestion();
-    startTimer();
-  });
-  quizContainer.appendChild(restartButton);
+  var highScoresElement = document.querySelector("#high-scores");
+  if (scoresList.childNodes.length > 0) {
+    highScoresElement.innerHTML = "<h2>High Scores</h2>";
+    highScoresElement.appendChild(scoresList);
+  } else {
+    highScoresElement.innerHTML = "<p>No high scores to display</p>";
+  }
 }
 
 function clearHighScores() {
   localStorage.removeItem("highScores");
+  var scoresList = document.querySelector("#high-scores ul");
+  if (scoresList) {
+    scoresList.remove();
+  }
 }
 
 function startTimer() {
@@ -221,6 +217,15 @@ function endQuiz() {
   questionElement.textContent = `You scored ${points} out of ${questions.length}!`;
   choicesElement.innerHTML = "";
   submitButton.style.display = "none";
+  var restartButton = document.createElement("button");
+  restartButton.textContent = "Restart Quiz";
+  restartButton.addEventListener("click", function () {
+    currentQuestion = 0;
+    points = 0;
+    time = 60;
+    displayQuestion();
+    startTimer();
+  });
 
   var buttonContainer = document.createElement("div");
   buttonContainer.classList.add("button-container");
@@ -232,10 +237,10 @@ function endQuiz() {
   });
 
   buttonContainer.appendChild(clearHighScoresButton);
-  // create a new element to display the high scores
+
   var highScoresElement = document.createElement("div");
-  highScoresElement.setAttribute("id", "high-scores");
   highScoresElement.innerHTML = "<h2>High Scores</h2>";
+  highScoresElement.setAttribute("id", "high-scores");
 
   var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 
@@ -254,6 +259,7 @@ function endQuiz() {
 
   quizContainer.appendChild(buttonContainer);
   quizContainer.appendChild(highScoresElement);
+  buttonContainer.appendChild(restartButton);
 
   quizContainer.appendChild(buttonContainer);
 }
