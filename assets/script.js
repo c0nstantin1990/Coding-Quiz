@@ -161,8 +161,24 @@ function saveScore() {
       return b.score - a.score;
     });
     localStorage.setItem("highScores", JSON.stringify(highScores));
+
+    // create a new element to display the high scores
+    var highScoresElement = document.createElement("div");
+    highScoresElement.setAttribute("id", "high-scores");
+    highScoresElement.innerHTML = "<h2>High Scores</h2>";
+
+    var scoresList = document.createElement("ul");
+    for (var i = 0; i < highScores.length; i++) {
+      var score = highScores[i];
+      var li = document.createElement("li");
+      li.textContent = `${score.initials} - ${score.score}`;
+      scoresList.appendChild(li);
+    }
+    highScoresElement.appendChild(scoresList);
+
+    // remove the form and display the high scoresa
     quizContainer.removeChild(form);
-    showHighScores();
+    quizContainer.appendChild(highScoresElement);
   });
 
   // add the form to the page
