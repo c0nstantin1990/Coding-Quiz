@@ -58,9 +58,9 @@ var questions = [
     correctAnswer: "object",
   },
   {
-    question: "What is the output of '3 + 2 + 7'' in JavaScript?",
-    choices: ["'327'", "12", "57", "NaN"],
-    correctAnswer: "'57'",
+    question: "What is the output of ''3 + 2 + 7'' in JavaScript?",
+    choices: ["327", "12", "57", "NaN"],
+    correctAnswer: "57",
   },
   {
     question: "What is the difference between '==' and '===' in JavaScript?",
@@ -160,8 +160,6 @@ function saveScore() {
       return b.score - a.score;
     });
     localStorage.setItem("highScores", JSON.stringify(highScores));
-
-    showHighScores();
   });
 
   quizContainer.appendChild(form);
@@ -196,7 +194,6 @@ function showHighScores() {
 
 function clearHighScores() {
   localStorage.removeItem("highScores");
-  showHighScores();
 }
 
 function startTimer() {
