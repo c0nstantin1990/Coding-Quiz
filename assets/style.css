@@ -73,3 +73,8 @@ button {
 #initials-form input {
   font-size: 2rem;
 }
+#high-scores ul li {
+  font-size: 35px;
+  background-color: rgb(145, 113, 174);
+  margin-right: 75px;
+}

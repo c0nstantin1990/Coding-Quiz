@@ -225,6 +225,7 @@ function endQuiz() {
     time = 60;
     displayQuestion();
     startTimer();
+    location.reload();
   });
 
   var buttonContainer = document.createElement("div");
