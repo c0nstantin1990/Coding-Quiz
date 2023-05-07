@@ -160,6 +160,13 @@ function saveScore() {
       return b.score - a.score;
     });
     localStorage.setItem("highScores", JSON.stringify(highScores));
+
+    // Append the new score to the list
+    var scoresList = document.querySelector("#high-scores ul");
+    var score = highScores[0];
+    var li = document.createElement("li");
+    li.textContent = `${score.initials} - ${score.score}`;
+    scoresList.appendChild(li);
   });
 
   quizContainer.appendChild(form);
