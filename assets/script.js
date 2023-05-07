@@ -138,7 +138,6 @@ function checkEndGame() {
 }
 
 function saveScore() {
-  // create a form for the user to enter their initials
   var form = document.createElement("form");
   form.setAttribute("id", "initials-form");
   var input = document.createElement("input");
@@ -151,9 +150,9 @@ function saveScore() {
   form.appendChild(input);
   form.appendChild(submitButton);
 
-  // add event listener to the form to handle submission
   form.addEventListener("submit", function (event) {
     event.preventDefault();
+
     var initials = input.value;
     var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
     highScores.push({ initials: initials, score: points });
@@ -162,31 +161,17 @@ function saveScore() {
     });
     localStorage.setItem("highScores", JSON.stringify(highScores));
 
-    // create a new element to display the high scores
-    var highScoresElement = document.createElement("div");
-    highScoresElement.setAttribute("id", "high-scores");
-    highScoresElement.innerHTML = "<h2>High Scores</h2>";
-
-    var scoresList = document.createElement("ul");
-    for (var i = 0; i < highScores.length; i++) {
-      var score = highScores[i];
-      var li = document.createElement("li");
-      li.textContent = `${score.initials} - ${score.score}`;
-      scoresList.appendChild(li);
-    }
-    highScoresElement.appendChild(scoresList);
-
-    // remove the form and display the high scoresa
-    quizContainer.removeChild(form);
-    quizContainer.appendChild(highScoresElement);
+    showHighScores();
   });
 
-  // add the form to the page
   quizContainer.appendChild(form);
 }
+
 function showHighScores() {
-  quizContainer.innerHTML = "";
   var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+  highScores.sort(function (a, b) {
+    return b.score - a.score;
+  });
   var scoresList = document.createElement("ul");
   for (var i = 0; i < highScores.length; i++) {
     var score = highScores[i];
@@ -194,7 +179,19 @@ function showHighScores() {
     li.textContent = `${score.initials} - ${score.score}`;
     scoresList.appendChild(li);
   }
+  quizContainer.innerHTML = "";
   quizContainer.appendChild(scoresList);
+
+  var restartButton = document.createElement("button");
+  restartButton.textContent = "Restart Quiz";
+  restartButton.addEventListener("click", function () {
+    currentQuestion = 0;
+    points = 0;
+    time = 60;
+    displayQuestion();
+    startTimer();
+  });
+  quizContainer.appendChild(restartButton);
 }
 
 function clearHighScores() {
@@ -223,23 +220,35 @@ function endQuiz() {
   var buttonContainer = document.createElement("div");
   buttonContainer.classList.add("button-container");
 
-  var viewHighScoresButton = document.createElement("button");
-  viewHighScoresButton.textContent = "View High Scores";
-  viewHighScoresButton.addEventListener("click", function () {
-    questionElement.textContent = "High Scores";
-    choicesElement.innerHTML = "";
-    submitButton.style.display = "none";
-    showHighScores();
-  });
-
   var clearHighScoresButton = document.createElement("button");
   clearHighScoresButton.textContent = "Clear High Scores";
   clearHighScoresButton.addEventListener("click", function () {
     clearHighScores();
   });
 
-  buttonContainer.appendChild(viewHighScoresButton);
   buttonContainer.appendChild(clearHighScoresButton);
+  // create a new element to display the high scores
+  var highScoresElement = document.createElement("div");
+  highScoresElement.setAttribute("id", "high-scores");
+  highScoresElement.innerHTML = "<h2>High Scores</h2>";
+
+  var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+
+  if (highScores.length === 0) {
+    highScoresElement.innerHTML = "<p>No high scores to display</p>";
+  } else {
+    var scoresList = document.createElement("ul");
+    for (var i = 0; i < highScores.length; i++) {
+      var score = highScores[i];
+      var li = document.createElement("li");
+      li.textContent = `${score.initials} - ${score.score}`;
+      scoresList.appendChild(li);
+    }
+    highScoresElement.appendChild(scoresList);
+  }
+
+  quizContainer.appendChild(buttonContainer);
+  quizContainer.appendChild(highScoresElement);
 
   quizContainer.appendChild(buttonContainer);
 }
