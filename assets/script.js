@@ -203,20 +203,28 @@ function endQuiz() {
   questionElement.textContent = `You scored ${points} out of ${questions.length}!`;
   choicesElement.innerHTML = "";
   submitButton.style.display = "none";
+
+  var buttonContainer = document.createElement("div");
+  buttonContainer.classList.add("button-container");
+
   var viewHighScoresButton = document.createElement("button");
   viewHighScoresButton.textContent = "View High Scores";
   viewHighScoresButton.addEventListener("click", function () {
-    questionElementtextContent = "High Scores";
+    questionElement.textContent = "High Scores";
     choicesElement.innerHTML = "";
     submitButton.style.display = "none";
     showHighScores();
   });
-  quizContainer.appendChild(viewHighScoresButton);
-  var clearHighScoreButton = document.createElement("button");
-  clearHighScoreButton.textContent = "Clear High Scores";
-  clearHighScoreButton.addEventListener("click", function () {
+
+  var clearHighScoresButton = document.createElement("button");
+  clearHighScoresButton.textContent = "Clear High Scores";
+  clearHighScoresButton.addEventListener("click", function () {
     clearHighScores();
   });
-  quizContainer.appendChild(clearHighScoreButton);
+
+  buttonContainer.appendChild(viewHighScoresButton);
+  buttonContainer.appendChild(clearHighScoresButton);
+
+  quizContainer.appendChild(buttonContainer);
 }
 startButton.addEventListener("click", startQuiz);
