@@ -15,7 +15,7 @@
 
 When you press "Start Quiz", presents questions. In left top corner is score count, and in right top corner is timer count. User has to answer 7 questions in 60 seconds and at the end he is presented with his score.
 
-![Start](/assets/screenshots/inicial.png)
+![Start](/assets/screenshots/initial.png)
 ![Question](/assets/screenshots/question.png)
 ![Wrong Answer](/assets/screenshots/wrong.png)
 ![Save Score](/assets/screenshots/save-score.png)
