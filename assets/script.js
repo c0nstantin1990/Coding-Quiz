@@ -166,13 +166,14 @@ function saveScore() {
 
     localStorage.setItem("highScores", JSON.stringify(highScores));
 
-    var scoresList = document.querySelector("#high-scores ul");
+    // var scoresList = document.querySelector("#high-scores ul");
     var score = highScores[highScores.length - 1];
     var li = document.createElement("li");
     li.textContent = `${score.initials} - ${score.score}`;
-    scoresList.appendChild(li);
+    // scoresList.appendChild(li);
 
     submitButton.disabled = true;
+    showHighScores();
   });
 
   quizContainer.appendChild(form);
