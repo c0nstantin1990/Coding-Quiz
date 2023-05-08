@@ -74,7 +74,8 @@ var questions = [
       "'==' compares values, while '===' compares both value and type",
   },
 ];
-
+//Function is called when the user clicks on the "Start" button.
+//It removes the start button, hides the title and subtitle, displays the first question, and starts the timer.
 function startQuiz() {
   quizContainer.removeChild(startButton);
   document.querySelector("h1").style.display = "none";
@@ -82,7 +83,9 @@ function startQuiz() {
   displayQuestion();
   startTimer();
 }
-
+//Displays the current question and its choices, and adds event listeners to the choices.
+// When the user selects a choice, it checks if the answer is correct, updates the points and timer, displays a result message,
+//moves on to the next question, and checks if the game has ended.
 function displayQuestion() {
   var question = questions[currentQuestion];
   questionElement.textContent = question.question;
@@ -112,7 +115,8 @@ function displayQuestion() {
     choicesElement.appendChild(li);
   }
 }
-
+//This function displays a result message for the user, indicating whether the answer was correct or wrong.
+//The result message is shown for a short duration before it is removed.
 function displayResult(isCorrect) {
   var resultElement = document.createElement("div");
   resultElement.classList.add("result");
@@ -126,7 +130,8 @@ function displayResult(isCorrect) {
     quizContainer.removeChild(resultElement);
   }, 1000);
 }
-
+//This function checks if the game has ended by checking if all questions have been answered or if time has run out.
+//If the game has ended, it stops the timer, displays the final score, and allows the user to save their score.
 function checkEndGame() {
   if (currentQuestion >= questions.length || time <= 0) {
     clearInterval(timerInterval);
@@ -136,6 +141,8 @@ function checkEndGame() {
     saveScore();
   }
 }
+//This function is called when the game has ended and the user is prompted to save their score.
+//It creates a form for the user to enter their initials, and when the form is submitted, it saves the score to local storage and displays the high scores.
 
 function saveScore() {
   var form = document.createElement("form");
@@ -170,7 +177,8 @@ function saveScore() {
 
   quizContainer.appendChild(form);
 }
-
+//This function displays the high scores by retrieving them from local storage,
+//sorting them in descending order, and displaying them in a list.
 function showHighScores() {
   var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
   highScores.sort(function (a, b) {
@@ -191,7 +199,7 @@ function showHighScores() {
     highScoresElement.innerHTML = "<p>No high scores to display</p>";
   }
 }
-
+//Function clears scores
 function clearHighScores() {
   localStorage.removeItem("highScores");
   var scoresList = document.querySelector("#high-scores ul");
@@ -199,7 +207,7 @@ function clearHighScores() {
     scoresList.remove();
   }
 }
-
+//Function starts timer
 function startTimer() {
   timerElement.textContent = time;
   timerInterval = setInterval(function () {
@@ -211,7 +219,9 @@ function startTimer() {
     }
   }, 1000);
 }
-
+//Function is called when the game has ended. It clears the timer interval that was set by startTimer() using clearInterval(), displays the final score by setting the text content of the questionElement,
+//removes the choices by setting the innerHTML of the choicesElement to an empty string, and calls saveScore() to allow the user to save their score.
+//Finally, it hides the submit button by setting its style.display property to "none".
 function endQuiz() {
   clearInterval(timerInterval);
   questionElement.textContent = `You scored ${points} out of ${questions.length}!`;
