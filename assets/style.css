@@ -62,10 +62,8 @@ button {
   font-size: 20px;
   cursor: pointer;
 }
-.result {
-  margin-top: 20px;
-  padding: 20px;
-  border-radius: 5px;
+.result p {
+  position: absolute;
   font-size: 30px;
   font-weight: bold;
   color: rgb(198, 175, 147);

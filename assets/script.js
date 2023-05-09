@@ -128,7 +128,7 @@ function displayResult(isCorrect) {
   quizContainer.appendChild(resultElement);
   setTimeout(function () {
     quizContainer.removeChild(resultElement);
-  }, 1000);
+  }, 500);
 }
 //This function checks if the game has ended by checking if all questions have been answered or if time has run out.
 //If the game has ended, it stops the timer, displays the final score, and allows the user to save their score.
